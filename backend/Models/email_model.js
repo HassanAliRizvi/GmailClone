@@ -1,22 +1,23 @@
-import mongoose, { mongo } from "mongoose";
-import { type } from "os";
-
+import mongoose from "mongoose";
 
 const emailSchema = new mongoose.Schema({
-    to:{
+    to: {
         type: String,
         required: true
     },
-
     subject: {
         type: String,
         required: true
     },
-
     message: {
         type: String,
         required: true
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
-}, {timestamps});
+}, { timestamps: true });
 
-export const Email = mongoose("User", emailSchema);
+export const Email = mongoose.model("Email", emailSchema);

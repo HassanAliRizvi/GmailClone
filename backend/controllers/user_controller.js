@@ -77,3 +77,18 @@ export const login = async (req, res) => {
         return res.status(500).json({ message: "Internal server error", success: false });
     }
 };
+
+
+export const logout = async(req,res) => {
+    try {
+        
+        return res.status(200).cookie("token", "", {maxAge:0}).json({
+            message: "logged out successfully!"
+        })
+
+    }
+
+    catch (error) {
+        console.log(error);
+    }
+}
