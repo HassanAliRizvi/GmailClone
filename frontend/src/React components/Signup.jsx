@@ -4,44 +4,37 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const Signup = () => {
-
   const [input, setInput] = useState({
     fullname: "",
     email: "",
     password: ""
-    });
+  });
 
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const changeHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const navigate = useNavigate();
-
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (input.password !== input.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
 
     try {
-      const response = await axios.post('/api/register', input, {
+      const response = await axios.post('http://localhost:8080/api/v1/user/register', input, {
         headers: {
           'Content-Type': 'application/json'
         },
         withCredentials: true
       });
-      if (response.data.success) {
-        navigate("/login");
-        toast.success(res.data.message);
-      }
 
-      // Handle successful signup (e.g., redirect to login page or show a success message)
+      if (response.data.success) {
+        toast.success(response.data.message);
+        navigate("/login");
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
-        console.error(error);
-        toast.error(res.data.message);
+      console.error(error);
     }
   };
 
@@ -49,8 +42,6 @@ const Signup = () => {
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <form className="bg-white p-8 rounded shadow-md w-full max-w-sm" onSubmit={submitHandler}>
         <h2 className="text-2xl mb-6 text-center font-bold">Signup</h2>
-
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <div className="mb-4">
           <label htmlFor="fullname" className="block text-gray-700 mb-2">Full Name</label>
@@ -91,19 +82,6 @@ const Signup = () => {
           />
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="confirmPassword" className="block text-gray-700 mb-2">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            value={input.confirmPassword}
-            onChange={changeHandler}
-            placeholder="Confirm Password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-
         <div className="flex items-center justify-between">
           <button
             type="submit"
@@ -119,3 +97,4 @@ const Signup = () => {
 };
 
 export default Signup;
+

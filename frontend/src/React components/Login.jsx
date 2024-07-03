@@ -2,6 +2,28 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/user/login', input, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      });
+
+      if (response.data.success) {
+        navigate("/login");
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred. Please try again.");
+    }
+  };
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <form className="bg-white p-8 rounded shadow-md w-full max-w-sm">

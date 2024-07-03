@@ -9,6 +9,7 @@ import Compose from './React components/Compose';
 import Login from './React components/Login';
 import Signup from './React components/Signup';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 const MainLayout = () => (
   <div className="bg-gray-100 min-h-screen">
@@ -38,6 +39,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
       <App />
+      <Toaster/>
     </Router>
   </React.StrictMode>
 );
