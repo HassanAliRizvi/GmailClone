@@ -67,16 +67,20 @@ export const login = async (req, res) => {
 
         const token = jwt.sign(tokenData, 'your_secret_key', { expiresIn: '1d' });
 
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'strict' }).json({
-            message: `${user.fullname} logged in successfully`,
-            user
-        });
+        return res.status(200)
+            .cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'strict' })
+            .json({
+                message: `${user.fullname} logged in successfully`,
+                success: true,  // Added success property
+                user
+            });
 
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error", success: false });
     }
 };
+
 
 
 export const logout = async(req,res) => {
