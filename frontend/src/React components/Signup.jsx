@@ -35,6 +35,13 @@ const Signup = () => {
       }
     } catch (error) {
       console.error(error);
+
+      // Extracting error message from the response
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
     }
   };
 
@@ -97,4 +104,6 @@ const Signup = () => {
 };
 
 export default Signup;
+
+
 

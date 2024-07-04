@@ -1,4 +1,3 @@
-// src/components/Compose.js
 import React, { useState } from 'react';
 
 const Compose = ({ onClose }) => {
@@ -79,4 +78,5 @@ const Compose = ({ onClose }) => {
 };
 
 export default Compose;
+
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Navbar from './React components/Navbar';
@@ -11,24 +11,32 @@ import Signup from './React components/Signup';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
-const MainLayout = () => (
-  <div className="bg-gray-100 min-h-screen">
-    <Navbar />
-    <div className='order-first grid grid-cols-8'>
-      <Sidebar />
-      <div className="col-span-7 bg-white rounded-xl">
-        <Body />
-        <Email />
+const MainLayout = () => {
+  const [showCompose, setShowCompose] = useState(false);
+
+  const toggleCompose = () => {
+    setShowCompose(!showCompose);
+  };
+
+  return (
+    <div className="bg-gray-100 min-h-screen">
+      <Navbar />
+      <div className='order-first grid grid-cols-8'>
+        <Sidebar toggleCompose={toggleCompose} />
+        <div className="col-span-7 bg-white rounded-xl">
+          <Body />
+          <Email />
+        </div>
       </div>
+      {showCompose && <Compose onClose={toggleCompose} />}
     </div>
-  </div>
-);
+  );
+};
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />} />
-      <Route path="/compose" element={<Compose />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
     </Routes>
