@@ -1,29 +1,27 @@
 import { Email } from "../Models/email_model.js";
 
-export const createEmail = async(req,res) =>{
-    try{
-
-        const userId = req.id;
-        const {to,subject,message} = req.body;
-        if(!to || !subject || !message) return res.status(400).json({message: "All fields are required", success:false});
-
-        const email = await Email.create({
-            to,
-            subject,
-            message,
-            userId
-        });
-
-        return res.status(200).json({
-            email
-        })
-
+export const createEmail = async (req, res) => {
+    try {
+      const userId = req.id;
+      const { to, subject, message } = req.body; // Changed `message` to `body`
+      if (!to || !subject || !message) return res.status(400).json({ message: "All fields are required", success: false });
+  
+      const email = await Email.create({
+        to,
+        subject,
+        message, // Changed `message` to `body`
+        userId
+      });
+  
+      return res.status(200).json({
+        email
+      });
+  
+    } catch (error) {
+      console.log(error);
     }
-
-    catch(error) {
-        console.log(error);
-    }
-}
+  };
+  
 
 export const deleteEmail = async(req,res) =>{
     try{
