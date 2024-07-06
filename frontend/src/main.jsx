@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Navbar from './React components/Navbar';
@@ -8,9 +8,9 @@ import Email from './React components/Email'; // Assuming you have an Email comp
 import Compose from './React components/Compose';
 import Login from './React components/Login';
 import Signup from './React components/Signup';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import store from './React components/redux/store.js'; // Import the Redux store
 import { PersistGate } from 'redux-persist/lib/integration/react.js';
 import persistStore from 'redux-persist/es/persistStore';
@@ -18,6 +18,14 @@ import persistStore from 'redux-persist/es/persistStore';
 let persistor = persistStore(store)
 
 const MainLayout = () => {
+  const {user} = useSelector(store => store.app);
+  const navigate = useNavigate();
+  useEffect (() => {
+    if(!user){
+      navigate("/login")
+    }
+  }, [])
+
   const [showCompose, setShowCompose] = useState(false);
 
   const toggleCompose = () => {
