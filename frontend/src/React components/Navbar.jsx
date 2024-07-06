@@ -9,8 +9,36 @@ import { MdFilterList } from "react-icons/md";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 import { BsGrid3X3Gap } from "react-icons/bs";
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { setAuthUser } from './redux/appSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get('http://localhost:8080/api/v1/user/logout');
+      console.log(res);
+  
+      if (res.data && res.data.message) {
+        toast.success(res.data.message);
+      } else {
+        toast.error('Unexpected response from server');
+      }
+  
+      dispatch(setAuthUser(null));
+      navigate("/login");
+    } catch (error) {
+      console.error('Error during logout:', error);
+      toast.error('Failed to log out');
+    }
+  
+  }
   return (
     <nav className='bg-white-200 w-full'>
       <div className='pt-6 space-y-4'>
@@ -47,6 +75,7 @@ const Navbar = () => {
             <button className='hover:bg-gray-300 rounded-xl p-1'>
               <BsGrid3X3Gap />
             </button>
+            <span onClick={logoutHandler} className='underline cursor-pointer'>Log Out</span>
           </div>
         </div>
 

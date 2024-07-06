@@ -12,6 +12,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import store from './React components/redux/store.js'; // Import the Redux store
+import { PersistGate } from 'redux-persist/lib/integration/react.js';
+import persistStore from 'redux-persist/es/persistStore';
+
+let persistor = persistStore(store)
 
 const MainLayout = () => {
   const [showCompose, setShowCompose] = useState(false);
@@ -49,8 +53,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}> {/* Wrap with Provider and pass the store */}
       <Router>
-        <App />
-        <Toaster/>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+          <Toaster />
+        </PersistGate>
       </Router>
     </Provider>
   </React.StrictMode>
