@@ -7,7 +7,8 @@ const initialState = {
     from: '',
     subject: '',
     body: ''
-  }
+  },
+  emailList: []  // Add this line
 };
 
 const appSlice = createSlice({
@@ -17,26 +18,28 @@ const appSlice = createSlice({
     setTo: (state, action) => {
       state.email.to = action.payload;
     },
-    setFrom: (state, action) => {
-      state.email.from = action.payload;
-    },
     setSubject: (state, action) => {
       state.email.subject = action.payload;
     },
     setBody: (state, action) => {
-      state.email.body = action.payload;
+      state.email.message = action.payload;
     },
-
+    closeCompose: (state) => {
+      state.email = { to: '', subject: '', body: '' };
+    },
+    addEmail: (state, action) => {  // Add this action
+      state.emailList.push(action.payload);
+    },
     setAuthUser: (state, action) => {
       state.user = action.payload;
-    },
-
-    closeCompose: (state) => {
-      state.email = { to: '', from: '', subject: '', body: '' };
-    }
+    } ,
+    setEmailList: (state, action) => { // Add this action
+      state.emailList = action.payload;
+    } 
   }
 });
 
-export const { setTo, setFrom, setSubject, setBody, closeCompose, setAuthUser } = appSlice.actions;
+export const { setTo, setSubject, setBody, closeCompose, addEmail, setAuthUser, setEmailList } = appSlice.actions;
 export default appSlice.reducer;
+
 

@@ -1,16 +1,26 @@
-// components/Compose.jsx
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCompose, setTo, setFrom, setSubject, setBody } from './redux/appSlice';
+import { closeCompose, setTo, setSubject, setBody, addEmail } from './redux/appSlice';
+import axios from 'axios';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { to, from, subject, body } = useSelector((state) => state.app.email);
+  const { to, subject, message } = useSelector((state) => state.app.email);
 
-  const handleSend = () => {
-    console.log('Sending email:', { to, from, subject, body });
-    dispatch(closeCompose());
-    // Add your send email logic, e.g., an API call to your backend
+  const handleSend = async () => {
+    const emailData = { to, subject, message };  // Ensure to include necessary fields
+    console.log('Sending email:', emailData);
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/email/create', emailData, {
+        withCredentials: true,
+      });
+
+      dispatch(addEmail(response.data.email));  // Assuming your API returns the created email object
+      dispatch(closeCompose());
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
   };
 
   const handleDiscard = () => {
@@ -37,14 +47,6 @@ const Compose = () => {
           className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <input
-          id="from"
-          type="text"
-          value={from}
-          onChange={(e) => dispatch(setFrom(e.target.value))}
-          placeholder="From"
-          className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-        <input
           id="subject"
           type="text"
           value={subject}
@@ -53,8 +55,8 @@ const Compose = () => {
           className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <textarea
-          id="body"
-          value={body}
+          id="message"
+          value={message}
           onChange={(e) => dispatch(setBody(e.target.value))}
           placeholder="Body"
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
@@ -79,3 +81,5 @@ const Compose = () => {
 };
 
 export default Compose;
+
+

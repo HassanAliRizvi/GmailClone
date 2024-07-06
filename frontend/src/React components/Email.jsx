@@ -1,5 +1,6 @@
-// src/components/Body.js
-import React, { useState, useEffect } from 'react';
+// components/Body.jsx
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { CiStar } from "react-icons/ci";
@@ -7,9 +8,11 @@ import { FaReply, FaArchive } from "react-icons/fa";
 import { MdArchive } from "react-icons/md";
 import { IoMdMailOpen } from "react-icons/io";
 import axios from 'axios';
+import { setEmailList } from './redux/appSlice';
 
 const EmailRow = ({ email }) => {
   const [isHovered, setIsHovered] = useState(false);
+
 
   return (
     <div 
@@ -46,7 +49,8 @@ const EmailRow = ({ email }) => {
 }
 
 const Body = () => {
-  const [emails, setEmails] = useState([]);
+  const dispatch = useDispatch();
+  const emails = useSelector((state) => state.app.emailList);
 
   useEffect(() => {
     const fetchEmails = async () => {
@@ -54,7 +58,8 @@ const Body = () => {
         const response = await axios.get('http://localhost:8080/api/v1/email/getAllEmails', {
           withCredentials: true,
         });
-        setEmails(response.data.emails);
+        // Assuming your backend API returns the emails in a 'emails' array
+        dispatch(setEmailList(response.data.emails)); // Update the state with the fetched emails
       } catch (error) {
         console.error('Error fetching emails:', error);
       }
@@ -73,5 +78,6 @@ const Body = () => {
 }
 
 export default Body;
+
 
 
