@@ -1,37 +1,38 @@
-import React, { useState } from 'react';
+// components/Compose.jsx
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeCompose, setTo, setFrom, setSubject, setBody } from './redux/appSlice';
 
-const Compose = ({ onClose }) => {
-  const [to, setTo] = useState('');
-  const [from, setFrom] = useState('');
-  const [subject, setSubject] = useState('');
-  const [body, setBody] = useState('');
+const Compose = () => {
+  const dispatch = useDispatch();
+  const { to, from, subject, body } = useSelector((state) => state.app.email);
 
   const handleSend = () => {
-    // Handle send email logic here
     console.log('Sending email:', { to, from, subject, body });
+    dispatch(closeCompose());
     // Add your send email logic, e.g., an API call to your backend
   };
 
   const handleDiscard = () => {
-    setTo('');
-    setFrom('');
-    setSubject('');
-    setBody('');
-    onClose();
+    dispatch(setTo(''));
+    dispatch(setFrom(''));
+    dispatch(setSubject(''));
+    dispatch(setBody(''));
+    dispatch(closeCompose());
   };
 
   return (
     <div className="fixed bottom-0 right-0 bg-white p-5 rounded-t-lg shadow-lg w-full max-w-xl">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-bold">Compose Email</h1>
-        <button onClick={onClose} className="text-red-500 text-2xl">&times;</button>
+        <button onClick={() => dispatch(closeCompose())} className="text-red-500 text-2xl">&times;</button>
       </div>
       <div className="mb-4">
         <input
           id="to"
           type="email"
           value={to}
-          onChange={(e) => setTo(e.target.value)}
+          onChange={(e) => dispatch(setTo(e.target.value))}
           placeholder="To"
           className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
@@ -39,7 +40,7 @@ const Compose = ({ onClose }) => {
           id="from"
           type="text"
           value={from}
-          onChange={(e) => setFrom(e.target.value)}
+          onChange={(e) => dispatch(setFrom(e.target.value))}
           placeholder="From"
           className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
@@ -47,14 +48,14 @@ const Compose = ({ onClose }) => {
           id="subject"
           type="text"
           value={subject}
-          onChange={(e) => setSubject(e.target.value)}
+          onChange={(e) => dispatch(setSubject(e.target.value))}
           placeholder="Subject"
           className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
         <textarea
           id="body"
           value={body}
-          onChange={(e) => setBody(e.target.value)}
+          onChange={(e) => dispatch(setBody(e.target.value))}
           placeholder="Body"
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
         />
@@ -78,5 +79,3 @@ const Compose = ({ onClose }) => {
 };
 
 export default Compose;
-
-

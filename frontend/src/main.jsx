@@ -10,6 +10,8 @@ import Login from './React components/Login';
 import Signup from './React components/Signup';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { Provider } from 'react-redux';
+import store from './React components/redux/store.js'; // Import the Redux store
 
 const MainLayout = () => {
   const [showCompose, setShowCompose] = useState(false);
@@ -45,9 +47,11 @@ const App = () => {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Router>
-      <App />
-      <Toaster/>
-    </Router>
+    <Provider store={store}> {/* Wrap with Provider and pass the store */}
+      <Router>
+        <App />
+        <Toaster/>
+      </Router>
+    </Provider>
   </React.StrictMode>
 );
