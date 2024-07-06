@@ -6,7 +6,7 @@ const initialState = {
     to: '',
     from: '',
     subject: '',
-    body: ''
+    message: ''
   },
   emailList: []  // Add this line
 };

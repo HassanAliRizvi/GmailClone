@@ -5,10 +5,10 @@ import axios from 'axios';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { to, subject, message } = useSelector((state) => state.app.email);
+  const { to, subject, message } = useSelector((state) => state.app.email); // Note that this is using `body` now
 
   const handleSend = async () => {
-    const emailData = { to, subject, message };  // Ensure to include necessary fields
+    const emailData = { to, subject, message};  // Ensure to include necessary fields
     console.log('Sending email:', emailData);
 
     try {
@@ -25,7 +25,7 @@ const Compose = () => {
 
   const handleDiscard = () => {
     dispatch(setTo(''));
-    dispatch(setFrom(''));
+    dispatch(setFrom('')); // Assuming you have this in your state
     dispatch(setSubject(''));
     dispatch(setBody(''));
     dispatch(closeCompose());
@@ -56,7 +56,7 @@ const Compose = () => {
         />
         <textarea
           id="message"
-          value={message}
+          value={message} // This should be `body` to match the state
           onChange={(e) => dispatch(setBody(e.target.value))}
           placeholder="Body"
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
@@ -81,5 +81,6 @@ const Compose = () => {
 };
 
 export default Compose;
+
 
 
