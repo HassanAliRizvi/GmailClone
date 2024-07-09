@@ -1,21 +1,31 @@
-// redux/appSlice.js
-import { createSlice } from '@reduxjs/toolkit';
-
-const initialState = {
-  open: false,
-  email: {
-    to: '',
-    subject: '',
-    message: ''
-  },
-  emailList: [],
-  selectedEmail: null  // Add this line
-};
+import { createSlice } from "@reduxjs/toolkit";
 
 const appSlice = createSlice({
-  name: 'app',
-  initialState,
+  name: "app",
+  initialState: {
+    open: false,
+    user: null,
+    emails: [],
+    selectedEmail: null,
+    searchText: "",
+    email: { to: "", subject: "", message: "" },  // Add this if it is not already in your state
+  },
   reducers: {
+    setOpen: (state, action) => {
+      state.open = action.payload;
+    },
+    setAuthUser: (state, action) => {
+      state.user = action.payload;
+    },
+    setEmails: (state, action) => {
+      state.emails = action.payload;
+    },
+    setSelectedEmail: (state, action) => {
+      state.selectedEmail = action.payload;
+    },
+    setSearchText: (state, action) => {
+      state.searchText = action.payload;
+    },
     setTo: (state, action) => {
       state.email.to = action.payload;
     },
@@ -26,39 +36,33 @@ const appSlice = createSlice({
       state.email.message = action.payload;
     },
     closeCompose: (state) => {
-      state.email = { to: '', subject: '', message: '' };
+      state.email = { to: "", subject: "", message: "" };
+      state.open = false;
     },
     addEmail: (state, action) => {
-      state.emailList.push(action.payload);
+      state.emails.push(action.payload);
     },
-    setAuthUser: (state, action) => {
-      state.user = action.payload;
-    },
+
     setEmailList: (state, action) => {
       state.emailList = action.payload;
-    },
-    setOpen: (state, action) => {
-      state.open = action.payload;
-    },
-    setSelectedEmail: (state, action) => {  // Add this action
-      state.selectedEmail = action.payload;
     }
-  }
+  },
 });
 
 export const {
+  setOpen,
+  setAuthUser,
+  setEmails,
+  setSelectedEmail,
+  setSearchText,
   setTo,
   setSubject,
   setBody,
   closeCompose,
   addEmail,
-  setAuthUser,
-  setEmailList,
-  setOpen,
-  setSelectedEmail
+  setEmailList
 } = appSlice.actions;
 
+
+
 export default appSlice.reducer;
-
-
-

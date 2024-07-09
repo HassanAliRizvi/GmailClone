@@ -1,15 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCompose, setTo, setSubject, setBody, addEmail, setOpen } from './redux/appSlice';
+import { setOpen, setTo, setSubject, setBody, addEmail, closeCompose } from './redux/appSlice.js'; // Ensure correct import path
 import { RxCross2 } from 'react-icons/rx';
 import axios from 'axios';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { to, subject, message } = useSelector((state) => state.app.email); // Note that this is using `message` now
+  const { to, subject, message } = useSelector((state) => state.app.email);
 
   const handleSend = async () => {
-    const emailData = { to, subject, message };  // Ensure to include necessary fields
+    const emailData = { to, subject, message };
     console.log('Sending email:', emailData);
 
     try {
@@ -17,7 +17,7 @@ const Compose = () => {
         withCredentials: true,
       });
 
-      dispatch(addEmail(response.data.email));  // Assuming your API returns the created email object
+      dispatch(addEmail(response.data.email));
       dispatch(closeCompose());
     } catch (error) {
       console.error('Error sending email:', error);
@@ -36,7 +36,7 @@ const Compose = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-bold">Compose Email</h1>
         <div onClick={() => dispatch(setOpen(false))} className="text-red-500 text-2xl cursor-pointer">
-          <RxCross2/>
+          <RxCross2 />
         </div>
       </div>
       <div className="mb-4">
@@ -83,6 +83,7 @@ const Compose = () => {
 };
 
 export default Compose;
+
 
 
 
