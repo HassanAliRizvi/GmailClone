@@ -1,14 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCompose, setTo, setSubject, setBody, addEmail } from './redux/appSlice';
+import { closeCompose, setTo, setSubject, setBody, addEmail, setOpen } from './redux/appSlice';
+import { RxCross2 } from 'react-icons/rx';
 import axios from 'axios';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { to, subject, message } = useSelector((state) => state.app.email); // Note that this is using `body` now
+  const { to, subject, message } = useSelector((state) => state.app.email); // Note that this is using `message` now
 
   const handleSend = async () => {
-    const emailData = { to, subject, message};  // Ensure to include necessary fields
+    const emailData = { to, subject, message };  // Ensure to include necessary fields
     console.log('Sending email:', emailData);
 
     try {
@@ -25,7 +26,6 @@ const Compose = () => {
 
   const handleDiscard = () => {
     dispatch(setTo(''));
-    dispatch(setFrom('')); // Assuming you have this in your state
     dispatch(setSubject(''));
     dispatch(setBody(''));
     dispatch(closeCompose());
@@ -35,7 +35,9 @@ const Compose = () => {
     <div className="fixed bottom-0 right-0 bg-white p-5 rounded-t-lg shadow-lg w-full max-w-xl">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-xl font-bold">Compose Email</h1>
-        <button onClick={() => dispatch(closeCompose())} className="text-red-500 text-2xl">&times;</button>
+        <div onClick={() => dispatch(setOpen(false))} className="text-red-500 text-2xl cursor-pointer">
+          <RxCross2/>
+        </div>
       </div>
       <div className="mb-4">
         <input
@@ -56,10 +58,10 @@ const Compose = () => {
         />
         <textarea
           id="message"
-          value={message} // This should be `body` to match the state
+          value={message}
           onChange={(e) => dispatch(setBody(e.target.value))}
           placeholder="Body"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline h-40"
         />
       </div>
       <div className="flex justify-end space-x-3">
@@ -81,6 +83,7 @@ const Compose = () => {
 };
 
 export default Compose;
+
 
 
 

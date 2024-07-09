@@ -2,13 +2,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  open: false,
   email: {
     to: '',
-    from: '',
     subject: '',
     message: ''
   },
-  emailList: []  // Add this line
+  emailList: [],
+  selectedEmail: null  // Add this line
 };
 
 const appSlice = createSlice({
@@ -25,21 +26,39 @@ const appSlice = createSlice({
       state.email.message = action.payload;
     },
     closeCompose: (state) => {
-      state.email = { to: '', subject: '', body: '' };
+      state.email = { to: '', subject: '', message: '' };
     },
-    addEmail: (state, action) => {  // Add this action
+    addEmail: (state, action) => {
       state.emailList.push(action.payload);
     },
     setAuthUser: (state, action) => {
       state.user = action.payload;
-    } ,
-    setEmailList: (state, action) => { // Add this action
+    },
+    setEmailList: (state, action) => {
       state.emailList = action.payload;
-    } 
+    },
+    setOpen: (state, action) => {
+      state.open = action.payload;
+    },
+    setSelectedEmail: (state, action) => {  // Add this action
+      state.selectedEmail = action.payload;
+    }
   }
 });
 
-export const { setTo, setSubject, setBody, closeCompose, addEmail, setAuthUser, setEmailList } = appSlice.actions;
+export const {
+  setTo,
+  setSubject,
+  setBody,
+  closeCompose,
+  addEmail,
+  setAuthUser,
+  setEmailList,
+  setOpen,
+  setSelectedEmail
+} = appSlice.actions;
+
 export default appSlice.reducer;
+
 
 
