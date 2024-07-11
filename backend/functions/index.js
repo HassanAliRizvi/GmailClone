@@ -7,9 +7,10 @@ import cors from 'cors';
 
 // Define cors options before using them
 const corsOption = {
-    origin: 'http://localhost:5173',
+    origin: 'https://clonegmal.netlify.app',
     credentials: true
 };
+
 
 // Connect to the database
 connectDB();
