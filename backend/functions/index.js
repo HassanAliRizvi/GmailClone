@@ -1,8 +1,8 @@
 import express from 'express';
-import connectDB from './connectDB.js';
+import connectDB from '../connectDB.js';
 import cookieParser from 'cookie-parser';
-import userRoute from './routes/user_routes.js';
-import emailRoute from './routes/email_routes.js';
+import userRoute from '../routes/user_routes.js';
+import emailRoute from '../routes/email_routes.js';
 import cors from 'cors';
 
 // Define cors options before using them
