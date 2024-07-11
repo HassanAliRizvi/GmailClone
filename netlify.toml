@@ -1,6 +1,6 @@
 [build]
   command = "npm run build --prefix frontend"
-  publish = "frontend/build"
+  publish = "frontend/dist"
 
 [functions]
   directory = "backend/functions"
