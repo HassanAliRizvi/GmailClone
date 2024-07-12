@@ -4,13 +4,13 @@ import cookieParser from 'cookie-parser';
 import userRoute from '../routes/user_routes.js';
 import emailRoute from '../routes/email_routes.js';
 import cors from 'cors';
+const BASE_URL = process.env.BASE_URL;
 
 // Define cors options before using them
 const corsOption = {
-    origin: 'https://clonegmal.netlify.app',
+    baseURL: BASE_URL,
     credentials: true
 };
-
 
 // Connect to the database
 connectDB();

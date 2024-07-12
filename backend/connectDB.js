@@ -1,12 +1,13 @@
 
 import mongoose from "mongoose";
-const uri = "mongodb+srv://hasanijthedi2002:KeFagEENCTjcwwBN@cluster0.h3kwcnw.mongodb.net/";
 
 
 const connectDB = async () => {
+  const URI = 'mongodb+srv://hasanijthedi2002:KeFagEENCTjcwwBN@cluster0.h3kwcnw.mongodb.net/';
+
   try {
     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
-    await mongoose.connect(uri);
+    await mongoose.connect(URI);
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } catch(error) {
     // Ensures that the client will close when you finish/error
