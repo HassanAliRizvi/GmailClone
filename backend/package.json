@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start8080": "functions/index.js",
+    "start": "node functions/index.js",
     "dev": "nodemon functions/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "echo 'No build necessary for backend'"
