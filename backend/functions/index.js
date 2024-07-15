@@ -1,35 +1,34 @@
-import express from 'express';
-import connectDB from '../connectDB.js';
-import cookieParser from 'cookie-parser';
-import userRoute from '../routes/user_routes.js';
-import emailRoute from '../routes/email_routes.js';
-import cors from 'cors';
-const BASE_URL = process.env.BASE_URL;
+import express from "express"; // react style
+import dotenv from "dotenv";
+import connectDB from "../connectDB.js";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import userRoute from "../routes/user_routes.js";
+import emailRoute from "../routes/email_routes.js";
 
-// Define cors options before using them
-const corsOption = {
-    baseURL: BASE_URL,
-    credentials: true
-};
-
-// Connect to the database
+dotenv.config({});
 connectDB();
-
+const PORT = 8080;
 const app = express();
-const PORT = process.env.PORT || 8080;
 
-// Middleware setup
-app.use(express.urlencoded({ extended: true }));
+// middleware
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsOption));
 
-// Routes
-app.use('/api/v1/user', userRoute);
-app.use('/api/v1/email', emailRoute);
+const corsOptions = {
+    origin:'http://localhost:5173',
+    credentials:true
+}
+app.use(cors(corsOptions));
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}....`);
+// routes
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/email", emailRoute);
+
+app.listen(PORT, ()=>{
+    console.log(`Server running at port ${PORT}`);
 });
+
 
 
