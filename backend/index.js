@@ -7,7 +7,7 @@ import cors from 'cors';
 
 // Define cors options before using them
 const corsOption = {
-    origin: 'http://localhost:5173',
+    origin: 'http://mygmailclone.s3-website.us-east-2.amazonaws.com/',
     credentials: true
 };
 
